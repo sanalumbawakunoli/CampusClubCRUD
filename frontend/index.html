@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Club Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 25px;
+            background: #f1f5f2;
+            color: #24352b;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            background: #176b43;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .panel {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px #00000012;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        input, select, textarea, button {
+            font: inherit;
+            padding: 11px;
+            border-radius: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            border: 1px solid #cbd5ce;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            background: #176b43;
+            color: white;
+            margin: 3px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .cancel-button {
+            background: #64748b;
+        }
+
+        .edit-button {
+            background: #2563eb;
+        }
+
+        .delete-button {
+            background: #b91c1c;
+        }
+
+        #message {
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            border-bottom: 1px solid #e2e8e5;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #e5efe8;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Campus Club Management</h1>
+            <p>Manage university clubs using the Node.js, Express and SQLite API.</p>
+        </header>
+
+        <section class="panel">
+            <h2 id="formTitle">Add a New Club</h2>
+
+            <form id="clubForm">
+                <input type="hidden" id="clubId">
+
+                <div class="form-grid">
+                    <input id="name" placeholder="Club name" required>
+
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option>Academic</option>
+                        <option>Arts</option>
+                        <option>Business</option>
+                        <option>Environmental</option>
+                        <option>Health</option>
+                        <option>Sports</option>
+                        <option>Technology</option>
+                        <option>Other</option>
+                    </select>
+
+                    <input id="president" placeholder="Club president" required>
+
+                    <input id="email" type="email"
+                           placeholder="Club email address" required>
+
+                    <select id="meeting_day" required>
+                        <option value="">Select meeting day</option>
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+                        <option>Sunday</option>
+                    </select>
+
+                    <textarea id="description"
+                              class="full-width"
+                              placeholder="Club description"
+                              required></textarea>
+
+                    <div class="full-width">
+                        <button type="submit" id="saveButton">
+                            Add Club
+                        </button>
+
+                        <button type="button"
+                                id="cancelButton"
+                                class="cancel-button"
+                                hidden>
+                            Cancel Edit
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <p id="message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel">
+            <h2>Registered Clubs</h2>
+
+            <button type="button" id="refreshButton">
+                Refresh Clubs
+            </button>
+
+            <p id="clubCount">Loading clubs...</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Club Name</th>
+                            <th>Category</th>
+                            <th>President</th>
+                            <th>Email</th>
+                            <th>Meeting Day</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="clubsTableBody">
+                        <tr>
+                            <td colspan="7">Loading clubs...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
